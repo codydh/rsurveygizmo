@@ -182,14 +182,7 @@ pullsg <- function(surveyid, api, completes_only=TRUE, verbose=TRUE, var_name_ap
 	drops <- "^[[:digit:]]+$|sys_[[:digit:]]+"
 	set <- lc_fullset[, -grep(drops, names(lc_fullset), perl=TRUE)]
 
-	if(delete_sys_vars | clean) set <- set[, -grep("^sys_", names(set),
-												   ignore.case=TRUE)]
-
-	# Other variables to drop per the "clean" parameter (V4 API)
-	otherdrops <- paste0("contactid|istestdata|sessionid|",
-						 "language|ilinkid|sresponsecomment")
-
-	if(clean) set <- set[, -grep(otherdrops, names(set), ignore.case=TRUE)]
+	if(delete_sys_vars) set <- set[, -grep("^sys_", names(set), ignore.case=TRUE)]
 	if(clean) set <- as.data.frame(lapply(set, type.convert, na.strings = "", as.is=TRUE))
 	if(reset_row_names) row.names(set) <- NULL
 
